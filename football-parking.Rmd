@@ -28,7 +28,6 @@ The games are in separate columns. It's easier to visualize patterns if these ar
 garage %>% 
   gather(., game, spaces, game1:game7) ->
   garage_clean
-  
 garage_clean
 ```
 
@@ -98,8 +97,10 @@ nuisance %>%
   facet_grid(. ~ game) +
   ggtitle("Cars on street or lawn")
 ```
- 
-On busy game weekends, there are 500-2,000+ cars parked on Borough streets and lawns, most of these in the Highlands and Holmes-Foster neighborhoods.
 
-There is insufficient capacity in the Borough garages to accommodate this volume.
+# Observations
+
+- On busy game weekends, there are 500-2,000+ cars parked on Borough streets and lawns, most of these in the Highlands and Holmes-Foster neighborhoods.
+
+- There is insufficient capacity in the Borough garages to accommodate this volume.
  
