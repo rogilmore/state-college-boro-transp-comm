@@ -1,0 +1,105 @@
+---
+title: "Highlands Parking"
+date: "`r Sys.time()`"
+output: html_notebook
+author: "Rick Gilmore"
+---
+
+
+```{r}
+library(tidyverse)
+```
+
+# Purpose
+
+To visualize data about garage, on-street, and lawn parking on football weekends.
+
+# Import & clean data
+
+```{r import-data}
+garage <- read.csv("csv/spaces-avail.csv")
+lawn <- read.csv("csv/lawn-parking.csv")
+street <- read.csv("csv/street-parking.csv")
+```
+
+The games are in separate columns. It's easier to visualize patterns if these are converted to one column with different labels.
+
+```{r munge-into-column}
+garage %>% 
+  gather(., game, spaces, game1:game7) ->
+  garage_clean
+  
+garage_clean
+```
+
+Let's do the same for the other datasets.
+
+```{r clean-lawn}
+lawn %>% 
+  gather(., game, cars, game1:game7) ->
+  lawn_clean
+```
+
+```{r clean-street}
+street %>% 
+  gather(., game, cars, game1:game7) ->
+  street_clean
+street_clean
+```
+
+# Plots
+
+```{r plot-lawn}
+lawn_clean %>%
+  ggplot(.) +
+  aes(x=time, y=cars, fill=neighborhood) +
+  geom_col() +
+  facet_grid(neighborhood ~ game) +
+  ggtitle("Cars on lawns by neighborhood")
+```
+
+```{r plot-street}
+street_clean %>%
+  ggplot(.) +
+  aes(x=time, y=cars, fill=neighborhood) +
+  geom_col() +
+  facet_grid(neighborhood ~ game) +
+  ggtitle("Cars on street by neighborhood")
+```
+
+```{r plot-garage}
+garage_clean %>%
+  ggplot(.) +
+  aes(x=time, y=spaces, fill=garage) +
+  geom_col() +
+  facet_grid(garage ~ game) +
+  ggtitle("Available spaces by garage")
+```
+
+```{r nuisance-parking}
+street_totals <- street_clean %>%
+  filter(time %in% c("am", "pm")) %>%
+  select(game, time, cars) %>%
+  group_by(game, time) %>%
+  summarize(n_cars = sum(cars))
+
+lawn_totals <- lawn_clean %>%
+  select(game, time, cars) %>%
+  group_by(game, time) %>%
+  summarize(n_cars = sum(cars))
+
+nuisance_cars <- street_totals$n_cars + lawn_totals$n_cars
+nuisance <- data_frame(game = lawn_totals$game, time = lawn_totals$time, cars = nuisance_cars)
+
+nuisance %>% 
+  ggplot(.) +
+  aes(x=time, y=cars, fill=time) +
+  geom_col() +
+  facet_grid(. ~ game) +
+  ggtitle("Cars on street or lawn")
+```
+ 
+On busy game weekends, there are 500-2,000+ cars parked on Borough streets and lawns, most of these in the Highlands and Holmes-Foster neighborhoods.
+
+There is insufficient capacity in the Borough garages to accommodate this volume.
+ 

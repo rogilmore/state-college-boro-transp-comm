@@ -1,0 +1,13 @@
+time,neighborhood,game1,game2,game3,game4,game5,game6,game7,type
+am,Highlands,184,151,236,529,432,632,340,onstreet
+am,College Heights,16,30,NA,71,95,75,37,onstreet
+am,Remaining Areas,14,3,65,164,94,93,55,onstreet
+am,Holmes-Foster,60,24,196,401,347,360,98,onstreet
+pm,Highlands,494,711,234,924,1433,1080,489,onstreet
+pm,College Heights,31,101,142,37,184,102,62,onstreet
+pm,Remaining Areas,76,63,185,NA,149,33,54,onstreet
+pm,Holmes-Foster,89,399,139,NA,492,338,234,onstreet
+sun,Highlands,111,323,84,243,604,499,30,onstreet
+sun,College Heights,4,65,NA,58,80,37,18,onstreet
+sun,Remaining Areas,5,40,104,192,118,251,68,onstreet
+sun,Holmes-Foster,17,292,152,270,264,148,97,onstreet
